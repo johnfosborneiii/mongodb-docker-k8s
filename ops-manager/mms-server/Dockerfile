@@ -46,6 +46,4 @@ USER 1001
 
 EXPOSE 8080/tcp
 
-CMD ["/opt/mongodb/mms/bin/mongodb-mms start"]
-
-
+CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]

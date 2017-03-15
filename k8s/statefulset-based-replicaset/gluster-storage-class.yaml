@@ -1,0 +1,10 @@
+kind: StorageClass 
+apiVersion: storage.k8s.io/v1beta1 
+metadata:
+  name: gluster-fast
+provisioner: kubernetes.io/glusterfs
+parameters: 
+  resturl: "http://deploy-heketi-glusterfs.apps.redhatpsmwsa.com"
+  restuser: "josborne"
+  restuserkey: "My Secret Life"
+

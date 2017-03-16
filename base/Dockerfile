@@ -50,4 +50,6 @@ RUN groupadd -r mongo -g 184 && \
 
 USER mongo
 
+EXPOSE 27017
+
 WORKDIR /home/mongo

@@ -1,49 +1,44 @@
-############################################################
-# Dockerfile to run MongoDB Enerprise
-# Based on a CentOS Image
-############################################################
+# Dockerizing MongoDB: Dockerfile for building Ops Manager images.
+# Based on mongodb-base-7/base:1.1, installs MMS via an archive (.tar) file.
 
-FROM centos:centos7
-MAINTAINER John Osborne <johnfosborneiii@gmail.com>
+FROM mongodb-base-7/base:1.1
 
-ENV container docker
+# Environment variables
+ENV MONGODB_IMAGE_NAME="mongodb-base-7/mms" \
+    MONGODB_IMAGE_VERSION="1.1" \
+    MONGODB_IMAGE_RELEASE="1" \
+    OPSM_VERSION="3.4.1.385-1" \
+    OPSM_MONGODB_APP=mongodb://0.0.0.0:27017 \
+    OPSM_HOME="/opt/mongodb/mms"
 
-ENV OPSMANAGER_VERSION=3.4.1.385-1
-ENV OPSMANAGER_MONGO_APP=mongodb://0.0.0.0:27017
+# Kubernetes labels
+LABEL io.k8s.description="MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure." \
+      io.k8s.display-name="MongoDB Ops Manager $MONGODB_VERSION" \
+      io.openshift.expose-services="80:mms" \
+      io.openshift.tags="ops,manager,mongodb,mongodb$MONGODB_VERSION,mms"
 
-ENV MONGOHOST https://downloads.mongodb.com/on-prem-mms/tar
-ENV MONGOFILE mongodb-mms-${OPSMANAGER_VERSION}.x86_64
-ENV WORKDIR /opt/mongodb/mms
-ENV container docker
-ENV HOME /home/mongo
+# Build labels
+LABEL Name="$MONGODB_IMAGE_NAME" \
+      Version="$MONGODB_IMAGE_VERSION" \
+      Release="$MONGODB_IMAGE_RELEASE" \
+      Architecture="x86_64" \
+      BZComponent="mongodb-base-7-mms-docker" \
+      Authors="John Osborne <johnfosborneiii@gmail.com>, Michael Surbey <msurbey@redhat.com>"
 
-RUN yum update -y; yum clean all
-RUN yum -y install epel-release bind-utils; yum clean all
-RUN yum -y install wget openssl; yum clean all
-RUN yum -y install net-tools; yum clean all
+USER root
 
-RUN useradd -u 1001 --home-dir $HOME --create-home mongo
+# Setup environment
+RUN mkdir -p $OPSM_HOME && \
+    echo "export PATH=\$OPSM_HOME:\$PATH" >> /etc/default/mms && \
+    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $OPSM_HOME --strip 1 && \
+    mkdir -p $HOME/.mongodb-mms
 
-RUN mkdir -p $WORKDIR
-WORKDIR $WORKDIR
-ENV PATH="$WORKDIR:${PATH}"
-
-RUN wget -O $MONGOFILE.tgz $MONGOHOST/$MONGOFILE.tar.gz
-RUN tar -xvzf $MONGOFILE.tgz
-RUN mv $MONGOFILE/* .
-RUN rm $MONGOFILE.tgz
-RUN rm -r $MONGOFILE
-
+# Global config settings
 COPY config/conf-mms.properties conf/conf-mms.properties
-RUN sed -i "s|mongodb://127.0.0.1:27017/?maxPoolSize=150|${OPSMANAGER_MONGO_APP}/admin|g" conf/conf-mms.properties
-RUN mkdir -p $HOME/.mongodb-mms/
+
+# User credentials
 COPY files/gen.key $HOME/.mongodb-mms/gen.key
 
-RUN chown -R 1001:1001 $WORKDIR
-RUN chown -R 1001:1001 /home/mongo/
-
-USER 1001
-
-EXPOSE 8080/tcp
+EXPOSE 8080
 
 CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]

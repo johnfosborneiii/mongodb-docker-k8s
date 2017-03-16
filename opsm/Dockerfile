@@ -33,11 +33,8 @@ RUN mkdir -p $OPSM_HOME && \
     curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $OPSM_HOME --strip 1 && \
     mkdir -p $HOME/.mongodb-mms
 
-# Global config settings
-COPY config/conf-mms.properties conf/conf-mms.properties
-
-# User credentials
-COPY files/gen.key $HOME/.mongodb-mms/gen.key
+# Copy new files
+ADD root /
 
 EXPOSE 8080
 

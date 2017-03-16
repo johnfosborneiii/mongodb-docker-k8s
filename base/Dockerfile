@@ -8,7 +8,7 @@ ENV LANG="en_US.UTF-8" \
     TERM="xterm" \
     MONGODB_IMAGE_NAME="mongodb-base-7/base" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="3" \
+    MONGODB_IMAGE_RELEASE="6" \
     MONGODB_VERSION="3.4" \
     HOME="/home/mongo"
 
@@ -27,10 +27,19 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
     yum -y install centos-release-scl-rh && \
     yum -y install --setopt=tsflags=nodocs \
                    bind-utils              \
+                   cyrus-sasl              \
+                   cyrus-sasl-plain        \
+                   cyrus-sasl-gssapi       \
                    gettext                 \
                    iproute                 \
+                   krb5-libs               \
+                   lm_sensors-libs         \
+                   net-snmp                \
+                   net-snmp-agent-libs     \
                    net-tools               \
                    openssl                 \
+                   rpm-libs                \
+                   tcp_wrappers-libs       \
                    wget                 && \
     yum clean all
 
@@ -49,7 +58,5 @@ RUN groupadd -r mongo -g 184 && \
     useradd -u 184 -r -g mongo -m -d $HOME -s /sbin/nologin -c "Mongo user" mongo
 
 USER mongo
-
-EXPOSE 27017
 
 WORKDIR /home/mongo

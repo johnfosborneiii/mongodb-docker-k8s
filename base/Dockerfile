@@ -4,11 +4,11 @@
 FROM centos:7
 
 # Environment variables
-ENV LANG en_US.UTF-8 \
-    TERM xterm \
+ENV LANG="en_US.UTF-8" \
+    TERM="xterm" \
     MONGODB_IMAGE_NAME="mongodb-base-7/base" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="1" \
+    MONGODB_IMAGE_RELEASE="2" \
     MONGODB_VERSION="3.4" \
     HOME="/home/mongo"
 

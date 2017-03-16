@@ -6,7 +6,7 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mms" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="1" \
+    MONGODB_IMAGE_RELEASE="2" \
     OPSM_VERSION="3.4.1.385-1" \
     OPSM_MONGODB_APP=mongodb://0.0.0.0:27017 \
     OPSM_HOME="/opt/mongodb/mms"
@@ -25,16 +25,16 @@ LABEL Name="$MONGODB_IMAGE_NAME" \
       BZComponent="mongodb-base-7-mms-docker" \
       Authors="John Osborne <johnfosborneiii@gmail.com>, Michael Surbey <msurbey@redhat.com>"
 
+# Copy file, directory, etc.
+ADD root /
+
 USER root
 
-# Setup environment
-RUN mkdir -p $OPSM_HOME && \
-    echo "export PATH=\$OPSM_HOME:\$PATH" >> /etc/default/mms && \
-    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $OPSM_HOME --strip 1 && \
-    mkdir -p $HOME/.mongodb-mms
+# Setup install
+RUN echo "export PATH=\$OPSM_HOME:\$PATH" >> /etc/default/mms && \
+    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $OPSM_HOME --strip 1
 
-# Copy new files
-ADD root /
+USER mongo
 
 EXPOSE 8080
 

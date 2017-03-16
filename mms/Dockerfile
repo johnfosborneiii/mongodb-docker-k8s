@@ -6,10 +6,8 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mms" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="3" \
-    OPSM_VERSION="3.4.1.385-1" \
-    OPSM_MONGODB_APP=mongodb://0.0.0.0:27017 \
-    OPSM_HOME="/opt/mongodb/mms"
+    MONGODB_IMAGE_RELEASE="5" \
+    MONGODB_HOME="/opt/mongodb/mms"
 
 # Kubernetes labels
 LABEL io.k8s.description="MongoDB Ops Manager is a service for managing, monitoring and backing up a MongoDB infrastructure." \
@@ -28,14 +26,19 @@ LABEL Name="$MONGODB_IMAGE_NAME" \
 USER root
 
 # Setup install
-RUN echo "export PATH=\$OPSM_HOME:\$PATH" >> /etc/default/mms && \
-    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $OPSM_HOME --strip 1
+RUN mkdir -p $MONGODB_HOME && \
+    echo "export PATH=\$MONGODB_HOME:\$PATH" >> /etc/default/mms && \
+    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $MONGODB_HOME --strip 1
 
 # Copy file, directory, etc.
 ADD root /
 
-USER mongo
+# Change ownership
+RUN chown -R mongo:mongo $MONGODB_HOME && \
+    chown -R mongo:mongo $HOME
 
 EXPOSE 8080
+
+USER mongo
 
 CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]

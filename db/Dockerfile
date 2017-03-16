@@ -6,7 +6,7 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mongodb" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="1" \
+    MONGODB_IMAGE_RELEASE="3" \
     MONGODB_HOME="/opt/mongodb"
 
 # Kubernetes labels
@@ -43,4 +43,4 @@ VOLUME ["/opt/mongodb/data"]
 
 USER mongo
 
-CMD ["bin/mongod", "--dbpath=/opt/mongodb/data", "--sslMode=requireSSL", "--sslPEMKeyFile=/etc/ssl/mongo.apps.josborne.com.pem"]
+CMD ["/opt/mongodb/bin/mongod", "--dbpath=/opt/mongodb/data", "--sslMode=requireSSL", "--sslPEMKeyFile=/etc/ssl/mongo.apps.josborne.com.pem"]

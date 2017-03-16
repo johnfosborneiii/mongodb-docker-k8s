@@ -1,48 +1,46 @@
-############################################################
-# Dockerfile to run MongoDB Enerprise
-# Based on a CentOS Image
-############################################################
+# Dockerizing MongoDB: Dockerfile for building MongoDB Enterprise images.
+# Based on mongodb-base-7/base:1.1, installs MongoDB via an archive (.tgz) file.
 
-FROM centos:centos7
-MAINTAINER John Osborne <johnfosborneiii@gmail.com>
+FROM mongodb-base-7/base:1.1
 
-ENV MONGOHOST https://fastdl.mongodb.org/linux
-ENV MONGOFILE mongodb-linux-x86_64-rhel70-3.4.1
-ENV WORKDIR /opt/mongodb
-ENV DATADIR $WORKDIR/data
-ENV container docker
-ENV HOME /home/mongo
+# Environment variables
+ENV MONGODB_IMAGE_NAME="mongodb-base-7/mongodb" \
+    MONGODB_IMAGE_VERSION="1.1" \
+    MONGODB_IMAGE_RELEASE="1" \
+    MONGODB_HOME="/opt/mongodb"
 
-RUN yum update -y; yum clean all
-RUN yum -y install epel-release bind-utils; yum clean all
-RUN yum -y install wget; cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs \
-            lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs \
-            tcp_wrappers-libs; yum clean all
+# Kubernetes labels
+LABEL io.k8s.description="MongoDB is a scalable, high-performance, open source NoSQL database." \
+      io.k8s.display-name="MongoDB $MONGODB_VERSION" \
+      io.openshift.expose-services="27017:mongodb" \
+      io.openshift.tags="database,mongodb,mongodb$MONGODB_VERSION"
 
-RUN useradd -u 1001 --home-dir $HOME --create-home mongo
+# Build labels
+LABEL Name="$MONGODB_IMAGE_NAME" \
+      Version="$MONGODB_IMAGE_VERSION" \
+      Release="$MONGODB_IMAGE_RELEASE" \
+      Architecture="x86_64" \
+      BZComponent="mongodb-base-7-mongodb-docker" \
+      Authors="John Osborne <johnfosborneiii@gmail.com>, Michael Surbey <msurbey@redhat.com>"
 
-RUN mkdir -p $WORKDIR
-RUN mkdir -p $DATADIR
+USER root
 
-WORKDIR $WORKDIR
-ENV PATH="$WORKDIR:${PATH}"
+# Setup install
+RUN mkdir -p $MONGODB_HOME  && \
+    echo "export PATH=\$MONGODB_HOME:\$PATH" >> /etc/default/mongodb && \
+    curl -L 'https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.4.2.tgz' | tar -xzf - -C $MONGODB_HOME --strip 1
 
-RUN wget -O $MONGOFILE.tgz $MONGOHOST/$MONGOFILE.tgz
-RUN tar -xvzf $MONGOFILE.tgz
-RUN mv $MONGOFILE/* .
-RUN rm $MONGOFILE.tgz
-RUN rm -r $MONGOFILE
+# Copy file, directory, etc.
+ADD root /
 
-RUN mkdir -p $HOME/.mongodb-mms/
-COPY files/gen.key $HOME/.mongodb-mms/gen.key
-COPY files/mongo.apps.josborne.com.pem /etc/ssl/
-
-RUN chown -R 1001:1001 $WORKDIR
-RUN chown -R 1001:1001 /home/mongo/
-
-USER 1001
+# Change ownership
+RUN chown -R mongo:mongo $MONGODB_HOME && \
+    chown -R mongo:mongo $HOME
 
 EXPOSE 27017
-VOLUME ["$DATADIR"]
+
+VOLUME ["/opt/mongodb/data"]
+
+USER mongo
 
 CMD ["bin/mongod", "--dbpath=/opt/mongodb/data", "--sslMode=requireSSL", "--sslPEMKeyFile=/etc/ssl/mongo.apps.josborne.com.pem"]

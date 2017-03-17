@@ -32,17 +32,17 @@ RUN tar -xvzf $MONGOFILE.tgz
 RUN mv $MONGOFILE/* .
 RUN rm $MONGOFILE.tgz
 RUN rm -r $MONGOFILE
-
-RUN mkdir -p $HOME/.mongodb-mms/
-COPY files/gen.key $HOME/.mongodb-mms/gen.key
-COPY files/mongo.apps.josborne.com.pem /etc/ssl/
+COPY files/gen.key /etc/ssl/gen.key
+COPY files/mongod.apps.josborne.com.pem /etc/ssl/
+COPY files/mongorootCA.pem /etc/ssl/
 
 RUN chown -R 1001:1001 $WORKDIR
 RUN chown -R 1001:1001 /home/mongo/
+RUN chown -R 1001:1001 /etc/ssl/
 
 USER 1001
 
 EXPOSE 27017
 VOLUME ["$DATADIR"]
 
-CMD ["bin/mongod", "--dbpath=/opt/mongodb/data", "--sslMode=requireSSL", "--sslPEMKeyFile=/etc/ssl/mongo.apps.josborne.com.pem"]
+CMD ["bin/mongod", "--dbpath=/opt/mongodb/data", "--sslMode=requireSSL", "--sslPEMKeyFile=/etc/ssl/mongod.apps.josborne.com.pem", "--sslPEMKeyPassword=password", "--sslCAFile=/etc/ssl/mongorootCA.pem", "--sslAllowInvalidHostnames"]

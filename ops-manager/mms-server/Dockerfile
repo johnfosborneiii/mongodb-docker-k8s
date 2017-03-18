@@ -40,14 +40,16 @@ COPY files/mms.apps.josborne.com.pem /etc/ssl/
 COPY files/mongorootCA.pem /etc/ssl/
 COPY config/conf-mms.properties conf/conf-mms.properties
 COPY config/mms.conf conf/mms.conf
+COPY files/entrypoint.sh /opt/mongodb/mms/bin/
 RUN sed -i "s|mongodb://127.0.0.1:27017/?maxPoolSize=150|${OPSMANAGER_MONGO_APP}/admin|g" conf/conf-mms.properties
 
 RUN chown -R 1001:1001 $WORKDIR
 RUN chown -R 1001:1001 /home/mongo/
+RUN chmod +x /opt/mongodb/mms/bin/entrypoint.sh
 
 USER 1001
 
 EXPOSE 8080/tcp
 EXPOSE 8443/tcp
 
-CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]
+CMD ["/opt/mongodb/mms/bin/entrypoint.sh"]

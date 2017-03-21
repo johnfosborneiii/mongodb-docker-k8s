@@ -18,13 +18,13 @@ The following `bin/init.sh` script increments version and relase information, as
 sh bin/init.sh cos
 ```
 
-## MongoDB Enterprise image
+## MongoDB Enterprise
 
 ```
 sh bin/init.sh mdb
 ```
 
-## Build MongoDB Ops Manager
+## MongoDB Ops Manager
 
 ```
 sh bin/init.sh opm

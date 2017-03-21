@@ -6,7 +6,7 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mms" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="5" \
+    MONGODB_IMAGE_RELEASE="1" \
     MONGODB_HOME="/opt/mongodb/mms"
 
 # Kubernetes labels
@@ -37,8 +37,9 @@ ADD root /
 RUN chown -R mongo:mongo $MONGODB_HOME && \
     chown -R mongo:mongo $HOME
 
-EXPOSE 8080
+EXPOSE 8080 8443
 
 USER mongo
 
+# CMD ["/opt/mongodb/mms/bin/entrypoint.sh"]
 CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]

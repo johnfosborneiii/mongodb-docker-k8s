@@ -6,7 +6,7 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mongodb" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="3" \
+    MONGODB_IMAGE_RELEASE="1" \
     MONGODB_HOME="/opt/mongodb"
 
 # Kubernetes labels
@@ -24,6 +24,21 @@ LABEL Name="$MONGODB_IMAGE_NAME" \
       Authors="John Osborne <johnfosborneiii@gmail.com>, Michael Surbey <msurbey@redhat.com>"
 
 USER root
+
+# Install packages
+RUN yum -y install --setopt=tsflags=nodocs \
+                   cyrus-sasl              \
+                   cyrus-sasl-plain        \
+                   cyrus-sasl-gssapi       \
+                   krb5-libs               \
+                   libcurl                 \
+                   lm_sensors-libs         \
+                   net-snmp-agent-libs     \
+                   net-snmp                \
+                   openssl                 \
+                   rpm-libs                \
+                   tcp_wrappers-libs    && \
+    yum clean all
 
 # Setup install
 RUN mkdir -p $MONGODB_HOME  && \

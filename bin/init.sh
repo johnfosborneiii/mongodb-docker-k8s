@@ -65,13 +65,13 @@ sed -i "s/\($RELEASE_REGEX\)$END_QTE_REGEX/\1$PATCH/g" $SRC_FILE_NAME
 
 # Get image name pattern
 IMAGE_NAME=$(egrep -o $IMGNAME_REGEX$END_QTE_REGEX $SRC_FILE_NAME | egrep -o $END_QTE_REGEX\$)
-BASE_IMAGE=mongodb\-base\-7\/base
-BASE_IMAGE_SED=mongodb\-base\-7\\/base:$VERSION
+# BASE_IMAGE=mongodb\-base\-7\/base
+# BASE_IMAGE_SED=mongodb\-base\-7\\/base:$VERSION
 
 # Update base image reference
-if [[ "$IMAGE_NAME" != "$BASE_IMAGE" ]]; then
-  sed -i "s/\(FROM\).*/\1 $BASE_IMAGE_SED/g" $SRC_FILE_NAME
-fi
+# if [[ "$IMAGE_NAME" != "$BASE_IMAGE" ]]; then
+#   sed -i "s/\(FROM\).*/\1 $BASE_IMAGE_SED/g" $SRC_FILE_NAME
+# fi
 
 # Change to source directory
 pushd $SRC_DIRECTORY

@@ -1,5 +1,6 @@
 ## Easiest way to test
 
+```
 cd db
 docker build -t mongodb-enterprise .
 
@@ -8,3 +9,4 @@ docker build -t mms-server .
 
 docker run --net=host mongodb-enterprise
 docker run -it --net=host mms-server
+```

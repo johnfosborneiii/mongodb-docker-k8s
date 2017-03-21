@@ -35,9 +35,9 @@ RUN rm $MONGOFILE.tgz
 RUN rm -r $MONGOFILE
 
 RUN mkdir -p $HOME/.mongodb-mms/
-COPY files/gen.key $HOME/.mongodb-mms/gen.key
-COPY files/mms.apps.josborne.com.pem /etc/ssl/
-COPY files/mongorootCA.pem /etc/ssl/
+COPY certs/gen.key $HOME/.mongodb-mms/gen.key
+COPY certs/mms.apps.josborne.com.pem /etc/ssl/
+COPY certs/mongorootCA.pem /etc/ssl/
 COPY config/conf-mms.properties conf/conf-mms.properties
 COPY config/mms.conf conf/mms.conf
 COPY files/entrypoint.sh /opt/mongodb/mms/bin/

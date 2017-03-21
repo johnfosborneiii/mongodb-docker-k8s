@@ -32,9 +32,9 @@ RUN tar -xvzf $MONGOFILE.tgz
 RUN mv $MONGOFILE/* .
 RUN rm $MONGOFILE.tgz
 RUN rm -r $MONGOFILE
-COPY files/gen.key /etc/ssl/gen.key
-COPY files/mongod.apps.josborne.com.pem /etc/ssl/
-COPY files/mongorootCA.pem /etc/ssl/
+COPY certs/gen.key /etc/ssl/gen.key
+COPY certs/mongod.apps.josborne.com.pem /etc/ssl/
+COPY certs/mongorootCA.pem /etc/ssl/
 
 RUN chown -R 1001:1001 $WORKDIR
 RUN chown -R 1001:1001 /home/mongo/

@@ -1,4 +1,3 @@
-ops-manager/mms-agent/files/*
-!ops-manager/mms-agent/files/gen.key
+db/files/*
 ops-manager/mms-server/files/*
-!ops-manager/mms-server/files/gen.key
+!ops-manager/mms-server/files/entrypoint.sh

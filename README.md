@@ -12,7 +12,7 @@
 
 The following `bin/init.sh` script increments version and relase information, as well as, builds each image based on the directory provided as the input paramter.
 
-### Centos (base)
+### CentOS (base)
 
 ```
 sh bin/init.sh cos

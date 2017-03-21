@@ -1,0 +1,25 @@
+#All passwords are 'password', including challenge password
+
+#Generate root CA, CN=root.apps.josborne.com
+openssl genrsa -aes256 -out mongorootCA.key 4096
+openssl req -x509 -new -nodes -key mongorootCA.key -sha256 -days 1024 -out mongorootCA.pem
+
+#Generating mongod signed key, CN=mongod.apps.josborne.com
+openssl genrsa -aes256 -out mongod.key 4096
+openssl req -new -key mongod.key -out mongod.csr
+openssl x509 -req -in mongod.csr -CA mongorootCA.pem -CAkey mongorootCA.key -CAcreateserial -out mongod.crt -days 1024 -sha256
+cat mongod.key mongod.crt mongorootCA.pem > mongod.apps.josborne.com.pem
+
+#Generating mms signed key
+openssl genrsa -aes256 -out mms.key 4096
+openssl req -new -key mms.key -out mms.csr
+openssl x509 -req -in mms.csr -CA mongorootCA.pem -CAkey mongorootCA.key -CAcreateserial -out mms.crt -days 1024 -sha256
+cat mms.key mms.crt mongorootCA.pem  > mms.apps.josborne.com.pem
+
+#Verify the trust relationship
+openssl verify -verbose -CAfile mongorootCA.pem mongod.apps.josborne.com.pem
+
+#Issues
+#Root CA CN must be differ from CN of signed hosts - http://stackoverflow.com/questions/19726138/openssl-error-18-at-0-depth-lookupself-signed-certificate
+#The order of the pem file matters - http://stackoverflow.com/questions/4658484/ssl-install-problem-key-value-mismatch-but-they-do-match
+

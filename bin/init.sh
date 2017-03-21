@@ -3,13 +3,26 @@
 CUR_DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
 SRC_DIRECTORY=$1
 SRC_FILE_NAME=$SRC_DIRECTORY/Dockerfile
+IMGBASE_REGEX='mongodb\-base\-7\/base'
 VER_NUM_REGEX='[0-9]+\.[0-9]+'
 VERSION_REGEX='MONGODB_IMAGE_VERSION=\"'
 REL_NUM_REGEX='[0-9]+'
 RELEASE_REGEX='MONGODB_IMAGE_RELEASE=\"'
 IMGNAME_REGEX='MONGODB_IMAGE_NAME=\"'
+IMGFROM_REGEX='FROM\s'
 END_QTE_REGEX='[^\"]*'
+END_COL_REGEX='[^\:]*'
 STR_SEPERATOR='.'
+
+# Quiet pushd
+pushd () {
+    command pushd "$@" > /dev/null
+}
+
+# Quiet popd
+popd () {
+    command popd "$@" > /dev/null
+}
 
 # Check source directory
 if [[ ! -d $SRC_DIRECTORY ]]; then
@@ -65,13 +78,11 @@ sed -i "s/\($RELEASE_REGEX\)$END_QTE_REGEX/\1$PATCH/g" $SRC_FILE_NAME
 
 # Get image name pattern
 IMAGE_NAME=$(egrep -o $IMGNAME_REGEX$END_QTE_REGEX $SRC_FILE_NAME | egrep -o $END_QTE_REGEX\$)
-# BASE_IMAGE=mongodb\-base\-7\/base
-# BASE_IMAGE_SED=mongodb\-base\-7\\/base:$VERSION
 
-# Update base image reference
-# if [[ "$IMAGE_NAME" != "$BASE_IMAGE" ]]; then
-#   sed -i "s/\(FROM\).*/\1 $BASE_IMAGE_SED/g" $SRC_FILE_NAME
-# fi
+# Update Dockerfile FROM
+if [[ "$IMAGE_NAME" != $IMGBASE_REGEX ]]; then
+  sed -i "s/\($IMGFROM_REGEX$END_COL_REGEX\).*/\1\\:$VERSION/g" $SRC_FILE_NAME
+fi
 
 # Change to source directory
 pushd $SRC_DIRECTORY

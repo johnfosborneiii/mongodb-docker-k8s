@@ -8,24 +8,24 @@
 
 # Usage
 
-## Build images
+To build the base and release images, run:
 
-The following script increments version and relase information, as well as, builds each image based on the target source directory.
+```
+hack/build-base-images.sh
+```
+
+The script increments version and release information, as well as, builds each image based on the target subdirectory in the `images` folder.
+
+For building individual images, run:
 
 ### CentOS (base)
 
 ```
-sh bin/init.sh cos
+hack/build-image.sh base
 ```
 
 ### MongoDB Enterprise
 
 ```
-sh bin/init.sh mdb
-```
-
-### MongoDB Ops Manager
-
-```
-sh bin/init.sh opm
+hack/build-image.sh mongod
 ```

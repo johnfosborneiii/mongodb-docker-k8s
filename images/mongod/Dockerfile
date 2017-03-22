@@ -6,13 +6,14 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mongodb" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="2" \
+    MONGODB_IMAGE_RELEASE="5" \
     MONGODB_VERSION="3.4" \
     MONGODB_HOME="/opt/mongodb" \
     MONGODB_DATADIR="/var/lib/mongodb/data" \
     MONGODB_CONFIG_PATH="/etc/mongod.conf" \
     MONGODB_LOG_PATH="/var/log/mongodb" \
-    CONTAINER_SCRIPTS_PATH="/usr/share/mongodb"
+    CONTAINER_SCRIPTS_PATH="/usr/share/mongodb" \
+    PATH="$MONGODB_HOME/bin:$PATH"
 
 # Kubernetes labels
 LABEL io.k8s.description="MongoDB is a scalable, high-performance, open source NoSQL database." \
@@ -51,6 +52,7 @@ ADD root /
 # Install mongod
 RUN curl -L 'https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-rhel70-3.4.2.tgz' | tar -xzf - -C $MONGODB_HOME --strip 1 && \
     chown -R mongod:0 $HOME && \
+    chown -R mongod:0 $MONGODB_HOME && \
     chown -R mongod:0 $MONGODB_DATADIR && \
     chmod -R a+rwx $MONGODB_HOME && \
     chmod -R g+rwx $HOME && \

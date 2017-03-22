@@ -1,14 +1,14 @@
 # Dockerizing CentOS: Dockerfile for building MongoDB images.
 # Based on centos:7, creates initial group & user account.
 
-FROM centos:7
+FROM centos:centos7
 
 # Environment variables
 ENV LANG="en_US.UTF-8" \
     TERM="xterm" \
     MONGODB_IMAGE_NAME="mongodb-base-7/base" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="2" \
+    MONGODB_IMAGE_RELEASE="3" \
     HOME="/var/lib/mongodb"
 
 # Build labels

@@ -39,7 +39,7 @@ function s_exists() {
 }
 
 function get_version() {
-  echo -n $(cat $OS_ROOT/VERSION)
+  echo -n $(cat $OS_ROOT/images/VERSION)
 }
 
 function get_dockerfile_image_version() {

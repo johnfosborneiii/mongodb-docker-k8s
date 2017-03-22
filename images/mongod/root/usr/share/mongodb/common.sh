@@ -5,13 +5,13 @@ set -o nounset
 set -o pipefail
 
 # Configuration settings.
+export MONGODB_PID_FILE=/var/run/mongodb/mongodb.pid
+export MONGODB_KEYFILE_PATH=/var/lib/mongodb/keyfile
 export CONTAINER_PORT=27017
 export MONGODB_NOPREALLOC=${MONGODB_NOPREALLOC:-true}
 export MONGODB_SMALLFILES=${MONGODB_SMALLFILES:-true}
 export MONGODB_QUIET=${MONGODB_QUIET:-true}
 export MONGODB_TEXT_SEARCH_ENABLED=${MONGODB_TEXT_SEARCH_ENABLED:-false}
-
-MONGODB_KEYFILE_PATH="${HOME}/keyfile"
 
 # Constants used for waiting
 readonly MAX_ATTEMPTS=60

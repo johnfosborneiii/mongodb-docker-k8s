@@ -15,10 +15,10 @@ storage:
   dbPath: ${MONGODB_DATADIR}
   journal:
     enabled: true
-  engine:
-  mmapv1: mmapv1
+  engine: ${MONGODB_STORAGE_ENGINE}
+  mmapv1:
     preallocDataFiles: ${MONGODB_NOPREALLOC}  # Disable data file preallocation. Default: true
-    smallfiles: ${MONGODB_SMALLFILES} # Set MongoDB to use a smaller default data file size. Default: true
+    smallFiles: ${MONGODB_SMALLFILES} # Set MongoDB to use a smaller default data file size. Default: true
 #  wiredTiger:
 
 # how the process runs

@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-source bin/env.sh
+source $(dirname "${BASH_SOURCE}")/env.sh
 
 # Update Dockerfile image version
 sed -i "s/\($VERSION_REGEX\)$END_QTE_REGEX/\1$VERSION/g" $SRC_FILE_NAME

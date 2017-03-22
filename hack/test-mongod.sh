@@ -69,9 +69,9 @@ function test_mongo() {
   if [ -v ADMIN_PASS ]; then
     echo "  Testing Admin user privileges"
     mongo_admin_cmd "db=db.getSiblingDB('${DB}');db.removeUser('${USER}');"
-    mongo_admin_cmd "db=db.getSiblingDB('${DB}');db.addUser({user:'${USER}',pwd:'${PASS}',roles:['readWrite','userAdmin','dbAdmin']});"
+    mongo_admin_cmd "db=db.getSiblingDB('${DB}');db.createUser({user:'${USER}',pwd:'${PASS}',roles:['readWrite','userAdmin','dbAdmin']});"
     mongo_admin_cmd "db=db.getSiblingDB('${DB}');db.testData.insert({x:0});"
-    mongo_cmd "db.addUser({user:'test_user2',pwd:'test_password2',roles:['readWrite']});"
+    mongo_cmd "db.createUser({user:'test_user2',pwd:'test_password2',roles:['readWrite']});"
   fi
   echo "  Testing user privileges"
   mongo_cmd "db.testData.insert({ y : 1 });"

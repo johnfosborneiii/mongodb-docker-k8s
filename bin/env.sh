@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-CUR_DIRECTORY=$(dirname "${BASH_SOURCE[0]}")
+CUR_DIRECTORY=$(dirname "${BASH_SOURCE}")
 
 SRC_DIRECTORY=$1
 SRC_FILE_NAME=$SRC_DIRECTORY/Dockerfile

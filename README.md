@@ -35,8 +35,6 @@ bin/build-image.sh mms-app
 
 - TBD
 
-### Uninstalling
-
 ## Quickstart
 
 To create a MongoDB replica set on OCP, you can use the template included in this repository and create a new deployment right away:
@@ -100,7 +98,7 @@ replica set, all of them have default values.
 
 The patterns for generated values are defined in the template parameters.
 
-## Teardown
+## Uninstalling
 
 - TBD
 

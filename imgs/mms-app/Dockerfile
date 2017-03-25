@@ -25,21 +25,23 @@ LABEL Name="$MONGODB_IMAGE_NAME" \
 
 USER root
 
-# Setup install
-RUN mkdir -p $MONGODB_HOME && \
-    echo "export PATH=\$MONGODB_HOME:\$PATH" >> /etc/default/mms && \
-    curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $MONGODB_HOME --strip 1
-
 # Copy file, directory, etc.
 ADD root /
 
+# Setup install
+RUN curl -L 'https://downloads.mongodb.com/on-prem-mms/tar/mongodb-mms-3.4.3.402-1.x86_64.tar.gz' | tar -xzf - -C $MONGODB_HOME --strip 1 && \
+    ln -s $MONGODB_HOME/bin/* /usr/bin/
+
 # Change ownership
-RUN chown -R mongod:mongo $MONGODB_HOME && \
-    chown -R mongo:mongo $HOME
+RUN chown -R mongod:0 $MONGODB_HOME && \
+    chown -R mongod:0 $HOME
 
 EXPOSE 8080 8443
 
-USER mongo
+# Data directory
+VOLUME ["/var/lib/mongodb/data"]
 
-# CMD ["/opt/mongodb/mms/bin/entrypoint.sh"]
-CMD ["/opt/mongodb/mms/bin/mongodb-mms", "start"]
+USER mongod
+
+ENTRYPOINT ["container-entrypoint"]
+CMD ["run-mongod"]

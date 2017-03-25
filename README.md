@@ -62,9 +62,9 @@ mongodb A +short +search`).
 
 This resource defines a [deployment configuration](https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations) to manage replica set members.
 Each member starts the MongoDB server without replication data. Once it is
-ready, it advertises itself to the current replica set PRIMARY, which will then
-add it to the replica set.
-When a member pod is destroyed, it is automatically removed from the replica set.
+ready, it advertises itself to the current [Replica Set Primary](https://docs.mongodb.com/manual/core/replica-set-primary/#replica-set-primary),
+which will then add it to the replica set. When a member pod is destroyed, it
+is automatically removed from the replica set.
 
 To add/remove members to the replica set you can use the `oc scale` command.
 This will scale the deployment up to 5 pods:

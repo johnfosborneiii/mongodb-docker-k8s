@@ -48,21 +48,21 @@ an empty database, and **all data from a previous deploy is lost**.
 
 ## How does it work?
 
-### Service 'mongodb'
+### Service
 
 This resource defines a [headless service](http://kubernetes.io/v1.0/docs/user-guide/services.html#headless-services)
 that serves as an entry point to the replica set. The service endpoints are
-the pods created by the 'mongodb' DeploymentConfig.
+the pods created by the `mongodb` DeploymentConfig.
 
 A headless service allows using DNS queries to discover other MongoDB
 endpoints from inside the container, by querying the service name (e.g.: `dig
 mongodb A +short +search`).
 
-### DeploymentConfig 'mongodb'
+### DeploymentConfig
 
 This resource defines a [deployment configuration](https://docs.openshift.org/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations) to manage replica set members.
 Each member starts the MongoDB server without replication data. Once it is
-ready, it advertises itself to the current [Replica Set Primary](https://docs.mongodb.com/manual/core/replica-set-primary/#replica-set-primary),
+ready, it advertises itself to the current replica set [PRIMARY](https://docs.mongodb.com/manual/core/replica-set-primary/#replica-set-primary),
 which will then add it to the replica set. When a member pod is destroyed, it
 is automatically removed from the replica set.
 
@@ -76,7 +76,7 @@ $ oc scale dc mongodb --replicas=5
 The provided template will start three replicas by default.
 MongoDB recommends using an [odd number of replicas](http://docs.mongodb.org/v2.4/tutorial/deploy-replica-set/#overview).
 
-#### Post-deployment hook
+#### Post-deployment Hook
 
 The DeploymentConfig has a post-deployment hook that runs once after every
 deploy, and is responsible for initializing the replica set, as well as creating

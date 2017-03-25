@@ -5,11 +5,11 @@ production. Use at your own risk.**
 
 ## Development
 
-### Prerequisite
+### Prerequisites
 
 - TBD
 
-### Compilation
+### Installing
 
 To build the images, run:
 
@@ -35,7 +35,9 @@ bin/build-image.sh mms-app
 
 - TBD
 
-## Deployment
+### Uninstalling
+
+## Quickstart
 
 To create a MongoDB replica set on OCP, you can use the template included in this repository and create a new deployment right away:
 
@@ -46,7 +48,7 @@ $ oc new-app k8s/replica/mongodb-clustered.json
 Since the provided template uses ephemeral storage, after every redeploy you get
 an empty database, and **all data from a previous deploy is lost**.
 
-## How does it work?
+## Documentation
 
 ### Service
 
@@ -99,5 +101,14 @@ replica set, all of them have default values.
 The patterns for generated values are defined in the template parameters.
 
 ## Teardown
+
+- TBD
+
+
+## Limitations
+
+- TBD
+
+## Community
 
 - TBD

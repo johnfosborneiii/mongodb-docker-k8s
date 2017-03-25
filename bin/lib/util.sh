@@ -2,18 +2,17 @@
 
 # Provides simple utility functions
 
-# Quiet pushd
+# pushd quiet directory stack
 function pushd() {
   command pushd "$@" > /dev/null
 }
 
-# Quiet popd
+# popd quiet directory stack
 function popd() {
   command popd "$@" > /dev/null
 }
 
-# kill_all_processes function will kill all
-# all processes created by the test script.
+# kill_all_processes kills processes currently executing jobs
 function kill_all_processes() {
 	local sudo="${USE_SUDO:+sudo}"
 
@@ -27,9 +26,9 @@ readonly -f kill_all_processes
 
 # truncate_large_logs truncates large logs
 function truncate_large_logs() {
-	# Clean up large log files so they don't end up on jenkins
 	local max_file_size="100M"
 	local large_files=$(find "${ARTIFACT_DIR}" "${LOG_DIR}" -type f -name '*.log' \( -size +${max_file_size} \))
+
 	for file in ${large_files}; do
 		mv "${file}" "${file}.tmp"
 		echo "LOGFILE TOO LONG ($(du -h "${file}.tmp")), PREVIOUS BYTES TRUNCATED. LAST ${max_file_size} OF LOGFILE:" > "${file}"
@@ -39,23 +38,21 @@ function truncate_large_logs() {
 }
 readonly -f truncate_large_logs
 
-######
-# end of common functions for extended test group's run.sh scripts
-######
-
-function find_files() {
-	find . -not \( \
-		\( \
-		-wholename './_output' \
-		-o -wholename './.*' \
-		-o -wholename './pkg/assets/bindata.go' \
-		-o -wholename './pkg/assets/*/bindata.go' \
-		-o -wholename './pkg/bootstrap/bindata.go' \
-		-o -wholename './openshift.local.*' \
-		-o -wholename './test/extended/testdata/bindata.go' \
-		-o -wholename '*/vendor/*' \
-		-o -wholename './assets/bower_components/*' \
-		\) -prune \
-	\) -name '*.go' | sort -u
+function get_file_first_line_match() {
+  egrep -m 1 ${2:-''} ${1:-''}
 }
-readonly -f find_files
+readonly -f get_file_first_line_match
+
+function get_string_between_quotes() {
+  expr "${1:-''}" : '.*\"\(.*\)\".*'
+}
+readonly -f get_string_between_quotes
+
+function set_file_first_line_match_string_between_quotes() {
+  sed -i "0,/${2:-''}/s|\(${2:-''}.*\"\).*\(\".*\)|\1${3:-''}\2| g" ${1:-''}
+}
+readonly -f get_string_between_quotes
+
+function set_file_first_line_match_string_after_pattern() {
+  sed -i "0,/${2:-''}/s|\(${2:-''}\).*|\1${3:-''}| g" ${1:-''}
+}

@@ -10,19 +10,19 @@
 
 To build the images, run:
 
-### Base
+### base
 
 ```
 bin/build-image.sh base
 ```
 
-### Mongod
+### mongod
 
 ```
 bin/build-image.sh mongod
 ```
 
-### Mms-app
+### mms-app
 
 ```
 bin/build-image.sh mms-app

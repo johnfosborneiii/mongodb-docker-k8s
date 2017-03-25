@@ -1,5 +1,3 @@
-# Overview
-
 **WARNING: This is only a Proof-Of-Concept example and it is not meant to be used in
 production. Use at your own risk.**
 

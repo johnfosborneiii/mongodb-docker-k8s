@@ -29,7 +29,7 @@ function cleanup() {
 trap 'cleanup' SIGINT SIGTERM
 
 # If user provides own config file use it and do not generate new one
-if [ ! -s $MONGODB_CONFIG_PATH ]; then
+if [[ ! -s $MONGODB_CONFIG_PATH ]]; then
   # Generate config file for MongoDB
   envsubst < ${CONTAINER_SCRIPTS_PATH}/mongodb.conf.template > $MONGODB_CONFIG_PATH
 fi
@@ -43,14 +43,14 @@ fi
 mongod $mongo_common_args &
 wait_for_mongo_up
 js_command="db.system.users.count({'user':'admin'})"
-if [ "$(mongo admin --quiet --eval "$js_command")" == "1" ]; then
+if [[ "$(mongo admin --quiet --eval "$js_command")" == "1" ]]; then
   echo "=> Admin user is already created. Resetting password ..."
   mongo_reset_admin
 else
   mongo_create_admin
 fi
 js_command="db.system.users.count({'user':'${MONGODB_USER}'})"
-if [ "$(mongo ${MONGODB_DATABASE} --quiet --eval "$js_command")" == "1" ]; then
+if [[ "$(mongo ${MONGODB_DATABASE} --quiet --eval "$js_command")" == "1" ]]; then
   echo "=> MONGODB_USER user is already created. Resetting password ..."
   mongo_reset_user
 else

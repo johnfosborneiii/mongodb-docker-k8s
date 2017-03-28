@@ -99,7 +99,7 @@ function build_mongo_config() {
   container_addr="$(container_addr)"
   local node
   for node in ${current_endpoints}; do
-    if [ "$node" != "$container_addr" ]; then
+    if [[ "$node" != "$container_addr" ]]; then
       members+="{ _id: ${member_id}, host: \"${node}:${CONTAINER_PORT}\"},"
       let member_id++
     fi
@@ -121,7 +121,7 @@ function mongo_initiate() {
 function replset_addr() {
   local current_endpoints
   current_endpoints="$(endpoints)"
-  if [ -z "${current_endpoints}" ]; then
+  if [[ -z "${current_endpoints}" ]]; then
     echo >&2 "Cannot get address of replica set: no nodes are listed in service"
     return 1
   fi
@@ -134,7 +134,7 @@ function mongo_remove() {
   # if we cannot determine the IP address of the primary, exit without an error
   # to allow callers to proceed with their logic
   host="$(replset_addr || true)"
-  if [ -z "$host" ]; then
+  if [[ -z "$host" ]]; then
     return
   fi
 
@@ -152,7 +152,7 @@ function mongo_add() {
   # if we cannot determine the IP address of the primary, exit without an error
   # to allow callers to proceed with their logic
   host="$(replset_addr || true)"
-  if [ -z "$host" ]; then
+  if [[ -z "$host" ]]; then
     return
   fi
 
@@ -238,13 +238,13 @@ function setup_keyfile() {
   if grep -q "^\s*keyFile" ${MONGODB_CONFIG_PATH}; then
     exit 0
   fi
-  if [ -z "${MONGODB_KEYFILE_VALUE-}" ]; then
+  if [[ -z "${MONGODB_KEYFILE_VALUE-}" ]]; then
     echo >&2 "ERROR: You have to provide the 'keyfile' value in MONGODB_KEYFILE_VALUE"
     exit 1
   fi
   local keyfile_dir
   keyfile_dir="$(dirname "$MONGODB_KEYFILE_PATH")"
-  if [ ! -w "$keyfile_dir" ]; then
+  if [[ ! -w "$keyfile_dir" ]]; then
     echo >&2 "ERROR: Couldn't create ${MONGODB_KEYFILE_PATH}"
     echo >&2 "CAUSE: current user doesn't have permissions for writing to ${keyfile_dir} directory"
     echo >&2 "DETAILS: current user id = $(id -u), user groups: $(id -G)"

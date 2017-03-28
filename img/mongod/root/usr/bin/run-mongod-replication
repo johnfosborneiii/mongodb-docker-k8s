@@ -30,7 +30,7 @@ function usage() {
 }
 
 function cleanup() {
-  if [ -n "${MONGODB_REPLICA_NAME-}" ]; then
+  if [[ -n "${MONGODB_REPLICA_NAME-}" ]]; then
     mongo_remove
   fi
   echo "=> Shutting down MongoDB server ..."
@@ -42,7 +42,7 @@ function cleanup() {
 trap 'cleanup' SIGINT SIGTERM
 
 # If user provides own config file use it and do not generate new one
-if [ ! -s "${MONGODB_CONFIG_PATH}" ]; then
+if [[ ! -s "${MONGODB_CONFIG_PATH}" ]]; then
   # Generate config file for MongoDB
   envsubst < "${CONTAINER_SCRIPTS_PATH}/mongodb.conf.template" > "${MONGODB_CONFIG_PATH}"
 fi

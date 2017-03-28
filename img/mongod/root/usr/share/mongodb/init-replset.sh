@@ -8,7 +8,7 @@ source "${CONTAINER_SCRIPTS_PATH}/common.sh"
 
 function initiate() {
   current_endpoints=$(endpoints)
-  if [ -n "${MONGODB_INITIAL_REPLICA_COUNT:-}" ]; then
+  if [[ -n "${MONGODB_INITIAL_REPLICA_COUNT:-}" ]]; then
     echo -n "=> Waiting for $MONGODB_INITIAL_REPLICA_COUNT MongoDB endpoints ..."
     while [[ "$(echo "${current_endpoints}" | wc -l)" -lt ${MONGODB_INITIAL_REPLICA_COUNT} ]]; do
       sleep 2
@@ -20,7 +20,7 @@ function initiate() {
     echo "the configuration of post deployment hook."
 
     echo -n "=> Waiting for MongoDB endpoints ..."
-    while [ -z "${current_endpoints}" ]; do
+    while [ -z "${current_endpoints}" ]]; do
       sleep 2
       current_endpoints=$(endpoints)
     done

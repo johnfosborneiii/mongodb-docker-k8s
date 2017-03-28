@@ -65,7 +65,7 @@ RUN curl -L 'https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise
     chmod -R 0755 $MONGODB_PID_FILE_PATH && \
     /usr/libexec/reset-perms /etc/mongod.conf
 
-EXPOSE 27017 8080 8443
+EXPOSE 27017
 
 # Data directory
 VOLUME ["/var/lib/mongodb/data"]

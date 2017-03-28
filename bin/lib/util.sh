@@ -28,7 +28,7 @@ function equal_to_object() {
   if [[ ${1:-''} == ${2:-''} ]]; then
     return 0
   else
-    get_error_message ${OS_FAILURE} "${2:-''}:${1:-''}"
+    get_message_codes ${OS_FAILURE} "${2:-''}:${1:-''}"
   fi
 
 	return 1

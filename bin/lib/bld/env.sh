@@ -4,7 +4,7 @@
 
 function create() {
   set -o errexit
-  local dir="$( absolute_path "${OS_IMG_PATH}/$1" )"
+  local dir="$( absolute_path "${OS_IMG_PATH}/${1-}" )"
   local file="${dir}/Dockerfile"
   local name="$( get_dockerfile_image_name ${file} )"
   local patch="$(( $(get_dockerfile_image_release ${file}) + 1 ))"

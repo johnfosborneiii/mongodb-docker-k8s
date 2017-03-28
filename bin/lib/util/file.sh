@@ -30,8 +30,6 @@ readonly -f set_file_first_line_match_string_after_pattern
 function is_null_file() {
   if [[ ! -s ${1:-''} ]] ; then
     return 0
-  else
-    get_error_message ${OS_FAILURE} "${2:-''}:${1:-''}"
   fi
 
   return 1

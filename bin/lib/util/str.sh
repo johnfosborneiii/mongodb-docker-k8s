@@ -2,6 +2,7 @@
 
 INBETWEEN_QUOTES='.*\"\(.*\)\".*'
 SEMANTIC_VERSION='[^0-9]*\(\([0-9]*\.[0-9]*\.[0-9]*\)\{1\}\).*'
+AFTER_FORWARD_SLASH='.*/\(\w*\)'
 
 function get_string_inbetween_quotes() {
   expr "${1:-''}" : ${INBETWEEN_QUOTES}
@@ -13,11 +14,13 @@ function get_string_semantic_version() {
 }
 readonly -f get_string_semantic_version
 
+function get_string_after_forward_slash() {
+  expr "${1:-''}" : ${AFTER_FORWARD_SLASH}
+}
+
 function is_null_string() {
   if [[ -z ${1:-''} ]] ; then
     return 0
-  else
-    get_error_message ${OS_FAILURE} "${2:-''}:${1:-''}"
   fi
 
   return 1

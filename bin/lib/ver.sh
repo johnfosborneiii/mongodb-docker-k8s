@@ -25,7 +25,6 @@ function save_version_vars() {
   local version_file=${1:-"${OS_VERSION_FILE}"}
 
   if is_null_file ${version_file} "save_version_vars" ; then
-    echo "save_version_vars"
 cat <<EOF >"${version_file}"
 OS_GIT_COMMIT='${OS_GIT_COMMIT}'
 OS_SEMANTIC_VERSION='${OS_SEMANTIC_VERSION}'
@@ -34,6 +33,7 @@ OS_SEMANTIC_VERSION_MAJOR='${OS_SEMANTIC_VERSION_MAJOR}'
 OS_SEMANTIC_VERSION_MINOR='${OS_SEMANTIC_VERSION_MINOR}'
 OS_SEMANTIC_VERSION_PATCH='${OS_SEMANTIC_VERSION_PATCH}'
 EOF
+    get_message_codes ${OS_CHNAGED} "save_version_vars : ${version_file}"
   fi
 }
 readonly -f save_version_vars
@@ -43,6 +43,8 @@ function load_version_vars() {
 
   if ! is_null_file ${version_file} ; then
     source "${version_file}"
+  else
+    get_message_codes ${OS_FAILURE} "load_version_vars : ${version_file}"
   fi
 }
 readonly -f load_version_vars

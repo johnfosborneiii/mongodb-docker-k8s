@@ -1,14 +1,5 @@
 #!/bin/bash
 
-STARTTIME=$(date +%s)
-source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
-
-DOCKERFILE=$OS_ROOT/images/mongod/Dockerfile
-VERSION=$(get_version)
-PATCH=$(($(get_dockerfile_image_release $DOCKERFILE) + 1))
-IMAGE_NAME=$(get_dockerfile_image_name $DOCKERFILE):$VERSION
-CIDFILE_DIR=$(mktemp --suffix=mongodb_test_cidfiles -d)
-
 function mongo_cmd() {
   docker run --rm $IMAGE_NAME mongo "$DB" --host $CONTAINER_IP -u "$USER" -p "$PASS" --eval "${@}"
 }
@@ -252,13 +243,11 @@ function run_mount_config_test() {
   echo "  Success!"
 }
 
-# Tests baseline configuration
-run_configuration_tests
-USER="user1" PASS="pass1" DB="test_db" ADMIN_PASS="r00t" run_tests admin
-
-# Test random UID
-CONTAINER_ARGS="-u 12345" USER="user1" PASS="pass1" DB="test_db" ADMIN_PASS="r00t" run_tests admin_altuid
-run_change_password_test
-run_mount_config_test
-
-ret=$?; ENDTIME=$(date +%s); echo "$0 took $(($ENDTIME - $STARTTIME)) seconds"; exit "$ret"
+# # Tests baseline configuration
+# run_configuration_tests
+# USER="user1" PASS="pass1" DB="test_db" ADMIN_PASS="r00t" run_tests admin
+#
+# # Test random UID
+# CONTAINER_ARGS="-u 12345" USER="user1" PASS="pass1" DB="test_db" ADMIN_PASS="r00t" run_tests admin_altuid
+# run_change_password_test
+# run_mount_config_test

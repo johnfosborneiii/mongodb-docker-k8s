@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
-# This script contains functions used for Docker unit testing.
-
 # function test_cleanup() {
 #   for cidfile in $CIDFILE_DIR/* ; do
 #     CONTAINER=$(cat $cidfile)

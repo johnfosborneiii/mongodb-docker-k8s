@@ -1,13 +1,13 @@
-sudo: required
-
-services:
-  - docker
-
-before_install:
-- docker build
-
-script:
-- docker exec
-
-after_script:
-- docker rm
+# sudo: required
+#
+# services:
+#   - docker
+#
+# before_install:
+# - docker build
+#
+# script:
+# - docker exec
+#
+# after_script:
+# - docker rm

@@ -6,7 +6,7 @@ FROM mongodb-base-7/base:1.1
 # Environment variables
 ENV MONGODB_IMAGE_NAME="mongodb-base-7/mongodb" \
     MONGODB_IMAGE_VERSION="1.1" \
-    MONGODB_IMAGE_RELEASE="2" \
+    MONGODB_IMAGE_RELEASE="7" \
     MONGODB_VERSION="3.4" \
     MONGODB_HOME="/opt/mongodb" \
     MONGODB_DATADIR="/var/lib/mongodb/data" \

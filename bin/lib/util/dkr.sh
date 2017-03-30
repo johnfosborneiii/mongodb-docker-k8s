@@ -2,6 +2,7 @@
 
 ENV_IMAGE_VERSION='IMAGE_VERSION'
 ENV_IMAGE_RELEASE='IMAGE_RELEASE'
+ENV_IMAGE_NAME='IMAGE_NAME'
 
 #####################################################
 # Dockerfile
@@ -10,7 +11,7 @@ ENV_IMAGE_RELEASE='IMAGE_RELEASE'
 function get_dockerfile_image_version() {
   local line="$(get_file_first_line_match ${1:-''} ${ENV_IMAGE_VERSION})"
 
-  echo -n $(get_string_inbetween_quotes ${line})
+  echo -n $(get_string_inbetween_quotes "${line}")
 }
 readonly -f get_dockerfile_image_version
 
@@ -22,7 +23,7 @@ readonly -f set_dockerfile_image_version
 function get_dockerfile_image_release() {
   local line="$(get_file_first_line_match ${1:-''} ${ENV_IMAGE_RELEASE})"
 
-  echo -n $(get_string_inbetween_quotes ${line})
+  echo -n $(get_string_inbetween_quotes "${line}")
 }
 readonly -f get_dockerfile_image_release
 
@@ -32,9 +33,9 @@ function set_dockerfile_image_release() {
 readonly -f set_dockerfile_image_release
 
 function get_dockerfile_image_name() {
-  local line="$(get_file_first_line_match ${1:-''} 'IMAGE_NAME')"
+  local line="$(get_file_first_line_match ${1:-''} ${ENV_IMAGE_NAME})"
 
-  echo -n $(get_string_inbetween_quotes ${line})
+  echo -n $(get_string_inbetween_quotes "${line}")
 }
 readonly -f get_dockerfile_image_name
 

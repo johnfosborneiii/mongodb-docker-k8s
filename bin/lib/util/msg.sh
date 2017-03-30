@@ -2,18 +2,14 @@
 
 function get_message_codes(){
   case "${1:-${OS_FAILURE}}" in
-    ${OS_SUCCESS} )
-      echo "[SUCCESS] ${2:-${FUNCNAME[0]}}"
-      ;;
-    ${OS_FAILURE} )
-      echo "[FAILURE] ${2:-${FUNCNAME[0]}}"
-      ;;
-    ${OS_CHNAGED} )
-      echo "[CHNAGED] ${2:-${FUNCNAME[0]}}"
-      ;;
-    *)
-      echo "[IGNORED] ${2:-${FUNCNAME[0]}}"
-      ;;
+    ${OS_SUCCESS} ) echo "[SUCCESS] ${2:-${FUNCNAME[0]}}"
+    ;;
+    ${OS_FAILURE} ) echo "[FAILURE] ${2:-${FUNCNAME[0]}}"
+    ;;
+    ${OS_CHNAGED} ) echo "[CHNAGED] ${2:-${FUNCNAME[0]}}"
+    ;;
+    *) echo "[IGNORED] ${2:-${FUNCNAME[0]}}"
+    ;;
   esac
 }
 readonly -f get_message_codes

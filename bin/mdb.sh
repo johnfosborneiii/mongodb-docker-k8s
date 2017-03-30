@@ -27,12 +27,14 @@ if [ -z "$@" ]; then
 fi
 
 case ${OPTION} in
-  ${OPT_BLDC} ) echo "OPT_BLDC"
-    ;;
+  ${OPT_BLDC} ) create ${1:-}
+  ;;
   ${OPT_RUNC} ) echo "OPT_RUNC"
-    ;;
+  ;;
   ${OPT_TEST} ) echo "OPT_TEST"
-    ;;
+  ;;
+  *) echo ${USAGE}
+  ;;
 esac
 
 ret=$?; ENDTIME=$(date +%s); echo "$0 took $(($ENDTIME - $STARTTIME)) seconds"; exit "$ret"

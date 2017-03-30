@@ -25,12 +25,10 @@ function truncate_large_logs() {
 readonly -f truncate_large_logs
 
 function equal_to_object() {
-  if [[ ${1:-''} == ${2:-''} ]]; then
-    return 0
-  else
-    get_message_codes ${OS_FAILURE} "${2:-''}:${1:-''}"
-  fi
-
+	if [[ ${1:-''} == ${2:-''} ]]; then
+		return 0
+	fi
+	
 	return 1
 }
 readonly -f equal_to_object

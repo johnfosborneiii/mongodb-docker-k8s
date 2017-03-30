@@ -85,7 +85,7 @@ function docker_get_exposed_ports() {
 readonly -f docker_get_exposed_ports
 
 function docker_run_container() {
-  local dir="$( absolute_path "${OS_IMG_PATH}/${1-}" )"
+  local dir="${OS_IMG_PATH}/${1-}"
   local file="${dir}/Dockerfile"
   local name="$( get_dockerfile_image_name ${file} )"
   local short_name="$( get_string_after_forward_slash ${name})"

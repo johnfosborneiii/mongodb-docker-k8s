@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# function test_cleanup() {
-#   for cidfile in $CIDFILE_DIR/* ; do
-#     CONTAINER=$(cat $cidfile)
-#
-#     echo "Stopping and removing container $CONTAINER..."
-#     docker stop $CONTAINER
-#     docker rm $CONTAINER
-#     rm $cidfile
-#     echo "Done."
-#   done
-#   rmdir $CIDFILE_DIR
-# }
-# trap test_cleanup EXIT SIGINT
+function test_cleanup() {
+  for cidfile in $CIDFILE_DIR/* ; do
+    CONTAINER=$(cat $cidfile)
+
+    echo "Stopping and removing container $CONTAINER..."
+    docker stop $CONTAINER
+    docker rm $CONTAINER
+    rm $cidfile
+    echo "Done."
+  done
+  rmdir $CIDFILE_DIR
+}
+trap test_cleanup EXIT SIGINT
 
 function test_connection() {
   local name=$1 ; shift

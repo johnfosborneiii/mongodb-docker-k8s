@@ -6,12 +6,14 @@
   <property name="dist"  location="dist"/>
   <property name="hamcrest" location="lib/hamcrest-core-1.3.jar"/>
   <property name="junit" location="lib/junit-4.12.jar"/>
+  <property name="mongo-driver" location="lib/mongo-java-driver-2.13.3.jar"/>
   <property name="test"  location="test"/>
 
   <path id="classpath.test">
     <pathelement location="${dist}" />
     <pathelement location="${hamcrest}" />
     <pathelement location="${junit}" />
+    <pathelement location="${mongo-driver}" />
     <pathelement location="${test}" />
   </path>
 
@@ -26,25 +28,22 @@
 
   <target name="dist" depends="compile">
     <jar jarfile="${dist}/lib/test.jar" basedir="${dist}">
-      <!-- <manifest>
-        <attribute name="Main-Class" value="TestRunner.class" />
-      </manifest> -->
-    </jar>
-  </target>
+  </jar>
+</target>
 
-  <target name="test" depends="compile">
-    <junit fork="yes" haltonfailure="true">
-      <classpath refid="classpath.test" />
-      <batchtest fork="false" todir="tres">
-        <formatter type="brief" usefile="false"/>
-        <fileset dir="${test}">
-          <include name="**/*Test*.java"/>
-        </fileset>
-      </batchtest>
-    </junit>
-  </target>
+<target name="test" depends="compile">
+  <junit fork="yes" haltonfailure="true">
+    <classpath refid="classpath.test" />
+    <batchtest fork="false" todir="tres">
+      <formatter type="brief" usefile="false"/>
+      <fileset dir="${test}">
+        <include name="**/*Test*.java"/>
+      </fileset>
+    </batchtest>
+  </junit>
+</target>
 
-  <target name="clean" description="clean up" >
-    <delete dir="${dist}"/>
-  </target>
+<target name="clean" description="clean up" >
+  <delete dir="${dist}"/>
+</target>
 </project>

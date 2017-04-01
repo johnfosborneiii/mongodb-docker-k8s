@@ -32,8 +32,11 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 DIR_ABSOLUTE_PATH="$(absolute_path "$DIR/../..")"
 
 OS_ROOT="${OS_ROOT:-"${DIR_ABSOLUTE_PATH}"}"
-readonly OS_LIB_PATH="${OS_ROOT}/bin/lib"
+
 export OS_ROOT
+
+readonly OS_CMD_PATH="${OS_CMD_PATH:-"${OS_ROOT}/cmd"}"
+readonly OS_LIB_PATH="${OS_LIB_PATH:-"${OS_CMD_PATH}/lib"}"
 
 # Concatenate library files
 library_files=( $( find "${OS_LIB_PATH}" -type f -name '*.sh' -not -path "*${OS_LIB_PATH}/init.sh" ) )

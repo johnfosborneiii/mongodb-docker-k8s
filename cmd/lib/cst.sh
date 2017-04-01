@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script provides constants for the binary build process.
-readonly OS_BIN_PATH="${OS_BIN_PATH:-"${OS_ROOT}/bin"}"
+
 readonly OS_IMG_PATH="${OS_IMG_PATH:-"${OS_ROOT}/img"}"
 readonly OS_IMG_BASE="${OS_IMG_BASE:-"${OS_IMG_PATH}/base"}"
 

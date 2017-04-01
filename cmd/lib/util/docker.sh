@@ -1,9 +1,5 @@
 #!/bin/bash
 
-ENV_IMAGE_VERSION='IMAGE_VERSION'
-ENV_IMAGE_RELEASE='IMAGE_RELEASE'
-ENV_IMAGE_NAME='IMAGE_NAME'
-
 #####################################################
 # Dockerfile
 #####################################################
@@ -96,9 +92,9 @@ function docker_run_container() {
   if is_null_container ${short_name} ; then
     docker run -di ${ports} --name ${short_name} ${name}:${tag}
   elif is_running_container ${short_name} ; then
-    get_message_codes ${OS_IGNORED} "docker_run_container : ${1:-''}"
+    get_status_code ${OS_IGNORED} "docker_run_container : ${1:-''}"
   else
-    get_message_codes ${OS_CHNAGED} "docker_run_container : ${1:-''}"
+    get_status_code ${OS_CHNAGED} "docker_run_container : ${1:-''}"
     docker_start_container ${short_name}
   fi
 }

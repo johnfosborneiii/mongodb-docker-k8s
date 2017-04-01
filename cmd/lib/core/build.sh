@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# This script holds library functions for setting up the Docker container build environment.
-set -o errexit
-set -o nounset
-set -o pipefail
-
 function create() {
   local dir="${OS_IMG_PATH}/${1-}"
   local file="${dir}/Dockerfile"

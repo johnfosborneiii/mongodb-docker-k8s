@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function get_message_codes(){
+function get_status_code(){
   case "${1:-${OS_FAILURE}}" in
     ${OS_SUCCESS} ) echo "[SUCCESS] ${2:-${FUNCNAME[0]}}"
     ;;
@@ -12,4 +12,4 @@ function get_message_codes(){
     ;;
   esac
 }
-readonly -f get_message_codes
+readonly -f get_status_code

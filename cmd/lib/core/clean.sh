@@ -23,12 +23,3 @@ function truncate_large_logs() {
 	done
 }
 readonly -f truncate_large_logs
-
-function equal_to_object() {
-	if [[ ${1:-''} == ${2:-''} ]]; then
-		return 0
-	fi
-	
-	return 1
-}
-readonly -f equal_to_object

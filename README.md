@@ -11,22 +11,22 @@ production. Use at your own risk.**
 
 To build the images, run:
 
-#### base
+#### Base OSs
 
 ```
-bin/build-image.sh base
+cmd/mdk.sh -b baseoss
 ```
 
-#### mongod
+#### [MongoDB](http://bit.ly/2npkKkw)
 
 ```
-bin/build-image.sh mongod
+cmd/mdk.sh -b mongod
 ```
 
-#### mms-app
+#### [Ops Manager Application](http://bit.ly/2npmVol)
 
 ```
-bin/build-image.sh mms-app
+cmd/mdk.sh -b mmsapp
 ```
 
 ### Testing

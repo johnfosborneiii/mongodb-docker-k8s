@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# This script provides constants for the binary build process.
-
 readonly OS_IMG_PATH="${OS_IMG_PATH:-"${OS_ROOT}/img"}"
 readonly OS_IMG_BASE="${OS_IMG_BASE:-"${OS_IMG_PATH}/base"}"
 
@@ -16,3 +14,11 @@ readonly OS_IGNORED="3"
 readonly OPT_BLDC="1"
 readonly OPT_RUNC="2"
 readonly OPT_TEST="3"
+
+readonly ENV_IMAGE_VERSION='IMAGE_VERSION'
+readonly ENV_IMAGE_RELEASE='IMAGE_RELEASE'
+readonly ENV_IMAGE_NAME='IMAGE_NAME'
+
+readonly INBETWEEN_QUOTES='.*\"\(.*\)\".*'
+readonly SEMANTIC_VERSION='[^0-9]*\(\([0-9]*\.[0-9]*\.[0-9]*\)\{1\}\).*'
+readonly AFTER_FORWARD_SLASH='.*/\(\w*\)'
